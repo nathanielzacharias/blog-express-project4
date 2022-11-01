@@ -8,11 +8,16 @@ const req = require("express/lib/request");
 const app = express();
 const port = process.env.PORT || 8000;
 
+//use body-parser
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended: true})) 
+app.use(bodyParser.json()) 
+
 //routes
 const userRouter = require("./routers/userRoutes");
 
 //Router
-app.use("/api/v1/auth", userRouter);
+app.use("/api/v1", userRouter);
 
 //Server
 app.listen(port, async () => {

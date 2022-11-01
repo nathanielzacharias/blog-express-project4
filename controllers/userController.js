@@ -5,6 +5,10 @@ const mongoose = require("mongoose");
 module.exports = {
   register: async (req, res) => {
 
+    // console.log(req.body.username)
+    // console.log(req.body.email)
+    // console.log(req.body.password)
+
     const pwHash = await bcrypt.hash(req.body.password, 10);
     const user = { ...req.body, password: pwHash };
 
@@ -15,6 +19,10 @@ module.exports = {
       return res.status(500).json({ error: "failed registration" });
     }
 
-    return res.json();
+    return res.json({ msg: "registration successful" });
+  },
+
+  getregister: async (req, res) => {
+    return res.json('hello')
   },
 };
