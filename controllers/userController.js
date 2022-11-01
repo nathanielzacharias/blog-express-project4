@@ -19,10 +19,12 @@ module.exports = {
       return res.status(500).json({ error: "failed registration" });
     }
 
-    return res.json({ msg: "registration successful" });
+    return res.status(201).json({ msg: "registration successful" });
   },
 
   getregister: async (req, res) => {
     return res.json('hello')
   },
+
+
 };
