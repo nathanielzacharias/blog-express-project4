@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 const userRouter = require("./routers/userRoutes");
 
 //Router
-app.use("/api/v1", userRouter);
+app.use("/api/v1/user", userRouter);
 
 //Server
 app.listen(port, async () => {

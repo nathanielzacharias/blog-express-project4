@@ -63,4 +63,35 @@ module.exports = {
 
     return res.json({ token });
   },
+
+  about: async (req, res) => {
+
+    //decode username
+    try {
+        //decode the jwt token to get userData and username
+        const userData = jwt.verify(req.body.token, process.env.JWT_SECRET)
+
+        //if token is falsy, return unauthorised 
+        if (!userData) {
+            return res.status(401).json({ msg: "unauthorised" })
+        }
+    } catch (err) {
+        return res.status(500).json({ error: "failed to decode JWT" });
+    }
+
+    const username = userData.username 
+    //find one username in collection, return aboutMe field 
+    try {
+        user = await userModel.findOne({ username: username });
+        if (!user) {
+          return res.status(401).json({ error: "username not found in DB" });
+        }
+      } catch (err) {
+        return res.status(500).json({ error: "failed to get username" });
+      }
+    
+    const aboutMe = user.aboutMe
+    return res.status(200).json({ aboutMe })
+
+  }
 };
