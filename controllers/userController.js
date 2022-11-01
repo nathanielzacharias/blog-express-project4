@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   register: async (req, res) => {
-
     // console.log(req.body.username)
     // console.log(req.body.email)
     // console.log(req.body.password)
@@ -25,12 +24,10 @@ module.exports = {
 
   //get register used for testing only
   getregister: async (req, res) => {
-    return res.json('hello')
+    return res.json("hello");
   },
 
-
   login: async (req, res) => {
-
     const errMsg = "username or password is incorrect";
     let user = null;
 
@@ -39,7 +36,6 @@ module.exports = {
       if (!user) {
         return res.status(401).json({ error: errMsg });
       }
-
     } catch (err) {
       return res.status(500).json({ error: "failed to get user" });
     }
@@ -53,20 +49,18 @@ module.exports = {
 
     // return JWT
     const userData = {
-        username: user.username,
-        objId: user._id
-      };
+      username: user.username,
+      objId: user._id,
+    };
 
     const token = jwt.sign(
-        {
-          exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour
-          data: userData,
-        },
-        process.env.JWT_SECRET
-      );
+      {
+        exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour
+        data: userData,
+      },
+      process.env.JWT_SECRET
+    );
 
     return res.json({ token });
-
-  }
-
+  },
 };
