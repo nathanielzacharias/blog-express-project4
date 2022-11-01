@@ -48,7 +48,7 @@ module.exports = {
     // return res.status(200).json({ msg: "all good" })
 
     // return JWT
-    const userData = {
+    const decoded = {
       username: user.username,
       objId: user._id,
     };
@@ -56,7 +56,7 @@ module.exports = {
     const token = jwt.sign(
       {
         exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour
-        data: userData,
+        data: decoded,
       },
       process.env.JWT_SECRET
     );
@@ -65,21 +65,23 @@ module.exports = {
   },
 
   about: async (req, res) => {
+    let decoded = null
 
-    //decode username
+    //decode data
     try {
-        //decode the jwt token to get userData and username
-        const userData = jwt.verify(req.body.token, process.env.JWT_SECRET)
+        //decode the jwt token to get username from data
+        decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
 
-        //if token is falsy, return unauthorised 
-        if (!userData) {
+        // if token is falsy, return unauthorised 
+        if (!decoded) {
             return res.status(401).json({ msg: "unauthorised" })
         }
     } catch (err) {
         return res.status(500).json({ error: "failed to decode JWT" });
     }
-
-    const username = userData.username 
+    
+    // console.log(decoded)
+    const username = decoded.data.username 
     //find one username in collection, return aboutMe field 
     try {
         user = await userModel.findOne({ username: username });
@@ -92,6 +94,5 @@ module.exports = {
     
     const aboutMe = user.aboutMe
     return res.status(200).json({ aboutMe })
-
   }
 };
