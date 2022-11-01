@@ -8,6 +8,12 @@ const req = require("express/lib/request");
 const app = express();
 const port = process.env.PORT || 8000;
 
+//routes
+const userRouter = require("./routers/userRoutes");
+
+//Router
+app.use("/api/v1/auth", userRouter);
+
 //Server
 app.listen(port, async () => {
   try {
