@@ -4,5 +4,6 @@ const articleController = require("../controllers/articleController");
 
 
 router.get("/latest", articleController.showLatestPublished); 
+router.get("/browse", articleController.browsePublished); 
 
 module.exports = router;
