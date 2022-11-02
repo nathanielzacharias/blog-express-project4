@@ -7,4 +7,5 @@ router.get("/latest", articleController.showLatestPublished);
 router.get("/browse", articleController.browsePublished); 
 router.post("/browse", articleController.showSelectedArticle)
 
+
 module.exports = router;

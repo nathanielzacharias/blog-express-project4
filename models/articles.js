@@ -14,6 +14,10 @@ const articleSchema = new mongoose.Schema({
     },
   ],
 
+//   author: {
+//     type: String,
+//   },
+
   summary: {
     type: String,
   },

@@ -50,6 +50,80 @@ module.exports = {
         return res.status(200).json({ selectedArticle });
       },
 
+    saveArticle: async (req, res) => {
+        let decoded = null
+        //decode data
+        try {
+            //decode the jwt token to get username from data
+            decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
+    
+            // if token is falsy, return unauthorised 
+            if (!decoded) {
+                return res.status(401).json({ msg: "unauthorised" })
+            }
+        } catch (err) {
+            return res.status(500).json({ error: "failed to decode JWT" });
+        }
+        
+        let savedArticle = null
+        const data = req.body
+        const user = await userModel.find({ username: decoded.data.username })
+        const userID = user._id
+        try {
+            savedArticle = await articleModel.create({
+                title: data.title,
+                author: userID,
+                summary: data.summary,
+                published: data.published,
+                body: data.body,
+                // tags: data.tags,
+                // images: data.images,
+            })
+            // console.log(savedArticle)
+          } catch (err) {
+            res.status(500);
+            return res.json({ error: "failed to save article" });
+          }
+
+        return res.status(200).json({ msg: "save successful" })
+      },
+
+    //   publishArticle: async (req, res) => {
+    //     let decoded = null
+    //     //decode data
+    //     try {
+    //         //decode the jwt token to get username from data
+    //         decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
+    
+    //         // if token is falsy, return unauthorised 
+    //         if (!decoded) {
+    //             return res.status(401).json({ msg: "unauthorised" })
+    //         }
+    //     } catch (err) {
+    //         return res.status(500).json({ error: "failed to decode JWT" });
+    //     }
+        
+    //     let publishedArticle = null
+    //     const data = req.body
+    //     try {
+    //         publishedArticle = await articleModel.find({
+    //             title: data.title,
+    //             author: userID,
+    //             summary: data.summary,
+    //             published: data.published,
+    //             body: data.body,
+    //             // tags: data.tags,
+    //             // images: data.images,
+    //         })
+    //         // console.log(publishedArticle)
+    //       } catch (err) {
+    //         res.status(500);
+    //         return res.json({ error: "failed to save article" });
+    //       }
+
+    //     return res.status(200).json({ msg: "save successful" })
+      }
+
     
 
 
