@@ -20,4 +20,19 @@ module.exports = {
     
         return res.status(200).json({ latestArticle });
       },
+
+    browsePublished: async (req, res) => {
+        let articles = null;
+    
+        try {
+          articles = await articleModel.sort({ createdAt: -1 }).find({});
+          // console.log(articles)
+        } catch (err) {
+          res.status(500);
+          return res.json({ error: "failed to return articles" });
+        }
+    
+        return res.status(200).json({ articles });
+      },
+
 };
