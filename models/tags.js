@@ -15,7 +15,14 @@ const tagSchema = new mongoose.Schema({
       ref: "Article",
     },
   ],
-  
+
+  author: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+
 });
 const Tag = mongoose.model("Tag", tagSchema);
 module.exports = Tag;
