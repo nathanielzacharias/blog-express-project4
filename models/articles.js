@@ -33,6 +33,8 @@ const articleSchema = new mongoose.Schema({
   images: {
     type: [],
   },
+
+  timestamps: true ,
 });
 
 const Article = mongoose.model("Article", articleSchema);

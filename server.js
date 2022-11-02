@@ -15,9 +15,11 @@ app.use(bodyParser.json())
 
 //routes
 const userRouter = require("./routers/userRoutes");
+const articleRouter = require("./routers/articleRoutes");
 
 //Router
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/main", articleRouter);
 
 //Server
 app.listen(port, async () => {
