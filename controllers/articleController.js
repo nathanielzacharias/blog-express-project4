@@ -35,6 +35,21 @@ module.exports = {
         return res.status(200).json({ articles });
       },
 
+    showSelectedArticle: async (req, res) => {
+        let selectedArticle = null;
+        const articleTitle = req.body.title
+    
+        try {
+            selectedArticle = await articleModel.find({title: articleTitle });
+          // console.log(selectedArticle)
+        } catch (err) {
+          res.status(500);
+          return res.json({ error: "failed to return selectedArticle" });
+        }
+    
+        return res.status(200).json({ selectedArticle });
+      },
+
     
 
 
