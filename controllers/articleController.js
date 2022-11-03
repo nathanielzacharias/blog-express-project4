@@ -20,7 +20,7 @@ module.exports = {
         }
         
         returnArticle = latestArticle[0]
-        return res.status(200).json({ latestArticle });
+        return res.status(200).json({ returnArticle });
       },
 
     browsePublished: async (req, res) => {
