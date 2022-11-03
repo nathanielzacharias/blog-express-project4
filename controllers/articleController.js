@@ -27,8 +27,8 @@ module.exports = {
         let articles = null;
     
         try {
-          articles = await articleModel.sort({ createdAt: -1 }).find({});
-          console.log(articles)
+          articles = await articleModel.find({ published: true }).sort({ createdAt: -1 });
+        //   console.log(articles)
         } catch (err) {
           res.status(500);
           return res.json({ error: "failed to return articles" });
