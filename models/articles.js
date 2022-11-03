@@ -7,12 +7,12 @@ const articleSchema = new mongoose.Schema({
     type: String,
   },
 
-  author: [
+  author: 
     {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-  ],
+  
 
 //   author: {
 //     type: String,
@@ -37,9 +37,9 @@ const articleSchema = new mongoose.Schema({
   images: {
     type: [],
   },
+},
 
-  timestamps: true ,
-});
+{ timestamps: true });
 
 const Article = mongoose.model("Article", articleSchema);
 module.exports = Article;

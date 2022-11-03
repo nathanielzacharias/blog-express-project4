@@ -68,7 +68,9 @@ module.exports = {
         let savedArticle = null
         const data = req.body
         const user = await userModel.find({ username: decoded.data.username })
-        const userID = user._id
+        const userID = user[0]._id
+        // const authorName = user[0].username
+        // console.log(authorName)
         try {
             savedArticle = await articleModel.create({
                 title: data.title,
@@ -194,7 +196,7 @@ module.exports = {
         let allPosts = null
         const data = req.body
         const user = await userModel.find({ username: decoded.data.username })
-        const userID = user._id
+        const userID = user[0]._id
         try {
             allPosts = await articleModel.find({ author: userID })
             // console.log(savedArticle)
