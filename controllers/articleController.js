@@ -175,6 +175,37 @@ module.exports = {
 
         return res.status(200).json({ msg: `successfully deleted ${article} article(s)` })
       },
+
+      showAllPosts: async (req, res) => {
+        let decoded = null
+        //decode data
+        try {
+            //decode the jwt token to get username from data
+            decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
+    
+            // if token is falsy, return unauthorised 
+            if (!decoded) {
+                return res.status(401).json({ msg: "unauthorised" })
+            }
+        } catch (err) {
+            return res.status(500).json({ error: "failed to decode JWT" });
+        }
+        
+        let allPosts = null
+        const data = req.body
+        const user = await userModel.find({ username: decoded.data.username })
+        const userID = user._id
+        try {
+            allPosts = await articleModel.find({ author: userID })
+            // console.log(savedArticle)
+          } catch (err) {
+            res.status(500);
+            return res.json({ error: "failed to find all posts" });
+          }
+
+        return res.status(200).json({ allPosts })
+      },
+
         
 
 };
