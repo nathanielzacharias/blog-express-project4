@@ -147,6 +147,34 @@ module.exports = {
 
         return res.status(200).json({ msg: "article is successfully updated" })
       },
+
+      deleteArticle: async (req, res) => {
+        let decoded = null
+        //decode data
+        try {
+            //decode the jwt token to get username from data
+            decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
+    
+            // if token is falsy, return unauthorised 
+            if (!decoded) {
+                return res.status(401).json({ msg: "unauthorised" })
+            }
+        } catch (err) {
+            return res.status(500).json({ error: "failed to decode JWT" });
+        }
+        
+        let article = null
+        const filter = { title: req.body.title }
+        try {
+            article = await articleModel.deleteOne(filter)
+            // console.log(article)
+          } catch (err) {
+            res.status(500);
+            return res.json({ error: "failed to delete article" });
+          }
+
+        return res.status(200).json({ msg: `successfully deleted ${article} article(s)` })
+      },
         
 
 };
