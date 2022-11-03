@@ -88,45 +88,65 @@ module.exports = {
         return res.status(200).json({ msg: "save successful" })
       },
 
-    //   publishArticle: async (req, res) => {
-    //     let decoded = null
-    //     //decode data
-    //     try {
-    //         //decode the jwt token to get username from data
-    //         decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
+      publishArticle: async (req, res) => {
+        let decoded = null
+        //decode data
+        try {
+            //decode the jwt token to get username from data
+            decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
     
-    //         // if token is falsy, return unauthorised 
-    //         if (!decoded) {
-    //             return res.status(401).json({ msg: "unauthorised" })
-    //         }
-    //     } catch (err) {
-    //         return res.status(500).json({ error: "failed to decode JWT" });
-    //     }
+            // if token is falsy, return unauthorised 
+            if (!decoded) {
+                return res.status(401).json({ msg: "unauthorised" })
+            }
+        } catch (err) {
+            return res.status(500).json({ error: "failed to decode JWT" });
+        }
         
-    //     let publishedArticle = null
-    //     const data = req.body
-    //     try {
-    //         publishedArticle = await articleModel.find({
-    //             title: data.title,
-    //             author: userID,
-    //             summary: data.summary,
-    //             published: data.published,
-    //             body: data.body,
-    //             // tags: data.tags,
-    //             // images: data.images,
-    //         })
-    //         // console.log(publishedArticle)
-    //       } catch (err) {
-    //         res.status(500);
-    //         return res.json({ error: "failed to save article" });
-    //       }
+        let publishedArticle = null
+        const filter = { title: req.body.title }
+        const update = { published: true }
+        try {
+            publishedArticle = await articleModel.findOneAndUpdate(filter, update)
+            // publishedArticle = await articleModel.findOne(filter)
+            // console.log(publishedArticle.published)
+          } catch (err) {
+            res.status(500);
+            return res.json({ error: "failed to publish article" });
+          }
 
-    //     return res.status(200).json({ msg: "save successful" })
-      }
+        return res.status(200).json({ msg: "article is successfully published" })
+      },
 
+    updateArticle: async (req, res) => {
+        let decoded = null
+        //decode data
+        try {
+            //decode the jwt token to get username from data
+            decoded = await jwt.verify(req.body.token, process.env.JWT_SECRET)
     
+            // if token is falsy, return unauthorised 
+            if (!decoded) {
+                return res.status(401).json({ msg: "unauthorised" })
+            }
+        } catch (err) {
+            return res.status(500).json({ error: "failed to decode JWT" });
+        }
+        
+        let article = null
+        const filter = { title: req.body.title }
+        const update = { body: req.body.body }
+        try {
+            article = await articleModel.findOneAndUpdate(filter, update)
+            // article = await articleModel.findOne(filter)
+            // console.log(article)
+          } catch (err) {
+            res.status(500);
+            return res.json({ error: "failed to update article" });
+          }
 
-
-    
+        return res.status(200).json({ msg: "article is successfully updated" })
+      },
+        
 
 };
