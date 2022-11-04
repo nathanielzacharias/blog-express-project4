@@ -39,10 +39,10 @@ module.exports = {
 
     showSelectedArticle: async (req, res) => {
         let selectedArticle = null;
-        const articleTitle = req.body.title
+        const articleID = req.params.id
     
         try {
-            selectedArticle = await articleModel.find({title: articleTitle });
+            selectedArticle = await articleModel.find({ _id: articleID });
           // console.log(selectedArticle)
         } catch (err) {
           res.status(500);
