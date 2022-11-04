@@ -168,7 +168,8 @@ module.exports = {
         }
         
         let article = null
-        const filter = { title: req.body.title }
+        // const filter = { title: req.body.title }
+        const filter = { _id: req.body.docID}
         try {
             article = await articleModel.deleteOne(filter)
             // console.log(article)
