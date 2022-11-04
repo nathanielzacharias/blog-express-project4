@@ -4,7 +4,7 @@ const articleController = require("../controllers/articleController");
 
 
 router.get("/latest", articleController.showLatestPublished); 
-router.get("/browse/:title", articleController.showSelectedArticle);
+router.get("/browse/:id", articleController.showSelectedArticle);
 router.get("/browse", articleController.browsePublished); 
 
 
