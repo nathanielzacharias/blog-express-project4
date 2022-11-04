@@ -138,7 +138,7 @@ module.exports = {
         }
         
         let article = null
-        const filter = { title: req.body.title }
+        const filter = { _id: req.body._id }
         const update = { body: req.body.summary }
         try {
             article = await articleModel.findOneAndUpdate(filter, update)
