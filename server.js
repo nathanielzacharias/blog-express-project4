@@ -45,6 +45,9 @@ const publishRouter = require("./routers/publishRoutes");
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/main", articleRouter);
 app.use("/api/v1/articles", publishRouter);
+app.get('/', (req, res) => {
+  res.send("Hello I'm Nat's blogging Backend")
+})
 
 //Server //pre SSL/TLS
 // app.listen(port, async () => {
@@ -62,12 +65,24 @@ app.use("/api/v1/articles", publishRouter);
 //   console.log(`Clog blogging system is listening on port ${port}`);
 // });
 
+
 //Server //with SSL/TLS
-app.get('/', (req, res) => {
-  res.send('HTTPS in use')
+//http server alongside https
+http.createServer(app).listen(80, async () => {
+  try {
+    await mongoose.connect(connectToMongo.uri, {
+      dbName: process.env.DB_NAME,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch (err) {
+    console.log("Failed to connect to Mongo Atlas. Error is: ", err);
+    process.exit(1);
+  }
+
+  console.log('Blog BE listening on port 80 without https')
 })
-
-
+//https server
 https
   .createServer(
     {
