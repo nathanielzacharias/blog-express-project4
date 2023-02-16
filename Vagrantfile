@@ -1,3 +1,5 @@
+require 'vagrant-aws'
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -12,7 +14,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/focal64"
+  config.vm.box = "ubuntu/jammy64"
   config.vm.hostname = "dftd"
 
   # Disable automatic box update checking. If you disable this, then
@@ -50,11 +52,24 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  config.vm.provider "virtualbox" do |vb|
-    vb.memory = "1024"
-    vb.name = "dftd"
-    vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
-    vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+  # config.vm.provider "virtualbox" do |vb|
+  #   vb.memory = "1024"
+  #   vb.name = "dftd"
+  #   vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+  #   vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+  # end
+
+  config.vm.provider 'aws' do |aws, override|
+    aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']
+    aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+    aws.keypair_name = 'blog-express-project4'
+    aws.instance_type = 't2.micro'
+    aws.region = 'ap-southeast-1'
+    aws.ami = 'ami-082b1f4237bd816a1'
+    aws.security_groups = 'sg-0962360dbcfd6d144'
+    aws.subnet_id = 'subnet-07df4a037af5bb678'
+    override.ssh.username = 'ubuntu'
+    # override.ssh.private_key_path = '[path of your key-pair]'
   end
 
   #
